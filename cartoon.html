@@ -1,0 +1,298 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>Cartoon characters</title>
+    <style type="text/css">
+        div {
+            width: 400px;
+            height: 400px;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <canvas id="demo" width="400" height="400"></canvas>
+</div>
+<script>
+    //第一步：获取canvas元素
+    var canvasDom = document.getElementById("demo");
+    canvasDom.style.backgroundColor="#f2f2f2";
+    //第二步：获取上下文
+    var cet = canvasDom.getContext('2d');
+    cet.translate(60,0);
+    //第三步：开始绘制
+    /* 中心轴 130 */
+    /* 面部 头发*/
+    function hair(){
+        cet.beginPath();
+        cet.moveTo(70, 90);
+        cet.quadraticCurveTo(130, 30, 187, 90);
+        cet.quadraticCurveTo(160, 85, 143, 88);
+        cet.quadraticCurveTo(132, 89, 130, 95);
+        cet.quadraticCurveTo(132, 89, 117, 88);
+        cet.quadraticCurveTo(100, 85, 70, 90);
+        cet.fillStyle = "#3e0d09";
+        cet.fill();
+        cet.stroke();
+    }
+
+    /* 轮廓*/
+    function outline(){
+        cet.beginPath();
+        cet.moveTo(70, 90);
+        cet.quadraticCurveTo(65, 99, 65, 106);
+        cet.quadraticCurveTo(70, 144, 68, 186);
+        cet.quadraticCurveTo(75, 210, 130, 213);
+        cet.quadraticCurveTo(185, 210, 191, 186);
+        cet.quadraticCurveTo(190, 144, 192, 106);
+        cet.quadraticCurveTo(194, 98, 187, 90);
+        cet.quadraticCurveTo(160, 85, 143, 88);
+        cet.quadraticCurveTo(132, 89, 130, 95);
+        cet.quadraticCurveTo(132, 89, 117, 88);
+        cet.quadraticCurveTo(100, 85, 70, 90);
+        cet.fillStyle = "#fde9ea";
+        cet.fill();
+        cet.stroke();
+    }
+
+    /* 左面眉毛 */
+    function leftEyebrow(){
+        cet.beginPath();
+        cet.moveTo(90, 130);
+        cet.quadraticCurveTo(96, 113, 115, 130);
+        cet.quadraticCurveTo(117, 131, 113, 133);
+        cet.quadraticCurveTo(96, 120, 90, 130);
+        cet.fillStyle = "#614248";
+        cet.fill();
+        cet.stroke();
+    }
+
+    /* 右面眉毛 */
+    function rightEyebrow(){
+        cet.beginPath();
+        cet.moveTo(170, 130);
+        cet.quadraticCurveTo(165, 113, 145, 130);
+        cet.quadraticCurveTo(143, 131, 147, 133);
+        cet.quadraticCurveTo(164, 120, 170, 130);
+        cet.fillStyle = "#614248";
+        cet.fill();
+        cet.stroke();
+    }
+    /* 左面眼睛 */
+    function leftEye(){
+        cet.beginPath();
+        cet.lineWidth = 3;
+        cet.strokeStyle = "#431b24";
+        cet.moveTo(88, 148);
+        cet.lineTo(115, 150);
+        cet.moveTo(107, 150);
+        cet.quadraticCurveTo(104, 157, 101, 150);
+        cet.fillStyle = "#431b24";
+        cet.fill();
+        cet.stroke();
+    }
+
+    /* 右面眼睛 */
+    function rightEye(){
+        cet.beginPath();
+        cet.lineWidth = 3;
+        cet.strokeStyle = "#431b24";
+        cet.moveTo(172, 148);
+        cet.lineTo(145, 150);
+        cet.moveTo(153, 150);
+        cet.quadraticCurveTo(156, 157, 159, 150);
+        cet.fillStyle = "#431b24";
+        cet.fill();
+        cet.stroke();
+    }
+
+    /* 鼻子 */
+    function nose(){
+        cet.beginPath();
+        cet.lineWidth = 1;
+        cet.moveTo(120, 163);
+        cet.quadraticCurveTo(120, 165, 122, 170);
+        cet.quadraticCurveTo(130, 172, 138, 170);
+        cet.quadraticCurveTo(140, 165, 140, 163);
+        cet.stroke();
+    }
+
+    /* 嘴 */
+    function mouth(){
+        cet.beginPath();
+        cet.moveTo(111, 180)
+        cet.quadraticCurveTo(130, 197, 149, 180);
+        cet.stroke();
+    }
+
+    /* 左耳朵*/
+    function leftEar(){
+        cet.beginPath();
+        cet.moveTo(69, 148);
+        cet.quadraticCurveTo(53, 140, 58, 166);
+        cet.quadraticCurveTo(59, 170, 58, 175);
+        cet.quadraticCurveTo(57, 183, 68, 184);
+        cet.moveTo(68, 165);
+        cet.quadraticCurveTo(65, 158, 60, 160);
+        cet.moveTo(68, 175);
+        cet.quadraticCurveTo(60, 170, 62, 165);
+        cet.fillStyle = "#fde9ea";
+        cet.fill();
+        cet.stroke();
+    }
+
+    /* 右耳朵 */
+    function rightEar(){
+        cet.beginPath();
+        cet.moveTo(191, 148);
+        cet.quadraticCurveTo(207, 140, 202, 166);
+        cet.quadraticCurveTo(201, 170, 202, 175);
+        cet.quadraticCurveTo(203, 183, 192, 184);
+        cet.moveTo(192, 165);
+        cet.quadraticCurveTo(195, 158, 200, 160);
+        cet.moveTo(192, 175);
+        cet.quadraticCurveTo(200, 170, 198, 165);
+        cet.fillStyle = "#fde9ea";
+        cet.fill();
+        cet.stroke();
+    }
+
+    /* 身体 */
+    function body(){
+        cet.beginPath();
+        cet.moveTo(100, 210);
+        cet.quadraticCurveTo(85, 218, 70, 240);
+        cet.quadraticCurveTo(73, 270, 115, 276);
+        cet.quadraticCurveTo(180, 283, 190, 240);
+        cet.quadraticCurveTo(175, 218, 160, 210);
+        cet.quadraticCurveTo(130, 218, 100, 210);
+        cet.fillStyle = "#949dd4";
+        cet.fill();
+        cet.stroke();
+    }
+
+    /* 衣服 */
+    function clothes(){
+        cet.beginPath();
+        cet.moveTo(80, 260);
+        cet.quadraticCurveTo(80, 240, 100, 230);
+        cet.moveTo(106, 235);
+        cet.quadraticCurveTo(95, 233, 95, 220);
+        cet.moveTo(100, 230);
+        cet.quadraticCurveTo(125, 230, 130, 220);
+        cet.moveTo(120, 217);
+        cet.quadraticCurveTo(130, 221, 140, 217);
+        cet.moveTo(125, 215);
+        cet.lineTo(135, 220);
+        cet.moveTo(135, 215);
+        cet.lineTo(125, 220);
+        cet.stroke();
+    }
+
+    /* 左 脸庞 */
+    function leftFaceDot(){
+        cet.beginPath();
+        cet.moveTo(80, 170);
+        cet.quadraticCurveTo(78, 167, 80, 165);
+        cet.quadraticCurveTo(87, 163, 95, 165);
+        cet.quadraticCurveTo(98, 167, 95, 170);
+        cet.quadraticCurveTo(87, 172, 80, 170);
+        cet.fillStyle = "#e8afb9";
+        cet.fill();
+    }
+
+    /* 右 脸庞 */
+    function rightFaceDot(){
+        cet.beginPath();
+        cet.moveTo(180, 170);
+        cet.quadraticCurveTo(182, 167, 180, 165);
+        cet.quadraticCurveTo(173, 163, 165, 165);
+        cet.quadraticCurveTo(162, 167, 165, 170);
+        cet.quadraticCurveTo(173, 172, 180, 170);
+        cet.fillStyle = "#e8afb9";
+        cet.fill();
+    }
+
+    //init();
+    function init(){
+        // 头发
+        hair();
+        // 轮廓
+        outline();
+        // 左眉毛
+        leftEyebrow();
+        // 右眉毛
+        rightEyebrow();
+        // 左眼
+        leftEye();
+        // 右眼
+        rightEye();
+        // 鼻子
+        nose();
+        // 嘴
+        mouth();
+        // 左耳
+        leftEar();
+        // 右耳
+        rightEar();
+        // 身体
+        body();
+        // 衣服
+        clothes();
+        // 左脸
+        leftFaceDot();
+        // 右脸
+        rightFaceDot();
+    }
+    draw();
+    function draw(){
+        var obj=setTimeout(()=>{
+            hair();
+            setTimeout(()=>{
+                outline();
+                setTimeout(()=>{
+                    leftEyebrow();
+                    setTimeout(()=>{
+                        rightEyebrow();
+                        setTimeout(()=>{
+                            leftEye();
+                            setTimeout(()=>{
+                                rightEye();
+                                setTimeout(()=>{
+                                    nose();
+                                    setTimeout(()=>{
+                                        mouth();
+                                        setTimeout(()=>{
+                                            leftEar();
+                                            setTimeout(()=>{
+                                                rightEar();
+                                                setTimeout(()=>{
+                                                    body();
+                                                    setTimeout(()=>{
+                                                        clothes();
+                                                        setTimeout(()=>{
+                                                            leftFaceDot();
+                                                            setTimeout(()=>{
+                                                                rightFaceDot();
+                                                                clearTimeout(obj);
+                                                            },500);
+                                                        },500);
+                                                    },500);
+                                                },500);
+                                            },500);
+                                        },500);
+                                    },500);
+                                },500);
+                            },500);
+                        },500);
+                    },500);
+                },500);
+            },500);
+        },500);
+    }
+</script>
+</body>
+</html>

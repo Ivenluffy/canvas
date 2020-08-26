@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=" utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>Rotate rectangle</title>
+    <style>
+        canvas{
+            border:1px solid black;
+        }
+    </style>
+    <script>
+        window.onload = () => {
+            let cvs=document.getElementById("ant");
+            let ctx=cvs.getContext("2d");
+
+            ctx.translate(100,50);
+            let angle=10;
+
+            let rotate = () => {
+                ctx.clearRect(-100,-50,200,100);
+                ctx.rotate(angle*Math.PI/180);
+
+                ctx.fillRect(-50,-25,100,50);
+                window.requestAnimationFrame(rotate);
+                //setTimeout(rotate,16);
+            };
+            rotate()
+        }
+    </script>
+</head>
+<body>
+<canvas id="ant"></canvas>
+</body>
+</html>

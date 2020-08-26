@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>letters</title>
+    <style>
+        *{margin:0;padding:0;}
+        html,body {
+            width:100%;height:100%;
+        }
+        #q {
+            width: 100%;
+            height: 100%;
+            margin: 0px auto;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var can = document.getElementById('can');
+            var width = can.width = document.documentElement.clientWidth;
+            var height = can.height = document.documentElement.clientHeight;
+            var letters = Array(256).join(1).split('');
+            var ctx=can.getContext("2d");
+
+            var draw = function () {
+                ctx.fillStyle = 'rgba(0,0,0,.05)';
+                ctx.fillRect(0, 0, width, height);
+                ctx.fillStyle = '#0F0';
+                letters.map(function (valAsY, index) {
+                    let rnd=Math.random()*26;
+                    console.log(rnd);
+                    text = String.fromCharCode(65 + rnd);
+                    let x_pos = index * 10;
+                    ctx.fillText(text, x_pos, valAsY);
+                    letters[index] = (valAsY > 758 + Math.random() * 1e4) ? 0 : valAsY + 10;
+                });
+            };
+            setInterval(draw, 33);
+        };
+
+    </script>
+</head>
+<body>
+<canvas id="can"></canvas>
+</body>
+</html>

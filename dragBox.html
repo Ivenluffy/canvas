@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>drag box</title>
+    <style>
+        *{margin:0;padding:0;}
+        html,body{width:100%;height:100%;}
+    </style>
+    <script>
+        window.onload = function() {
+            var can = document.getElementById('box'),
+                gd = can.getContext('2d'),
+                x = 0,
+                y = 0,
+                w = 100,
+                h = 100;
+
+            gd.fillStyle = 'red';
+            gd.fillRect(x, y, w, h);
+            can.onmousedown = function(ev) {
+                var ev = ev || window.event;
+                var downx = ev.clientX;
+                var downy = ev.clientY;
+                if (downx > x && downy < x + w && downy > y && downy < y + h) {
+                    var disx = downx - x;
+                    var disy = downy - y;
+                    can.onmousemove = function(ev) {
+                        var ev = ev || window.event;
+                        x = ev.clientX - disx;
+                        y = ev.clientY - disy;
+                        gd.clearRect(0, 0, can.width, can.height);
+                        gd.fillRect(x, y, w, h);
+                    };
+                    can.onmouseup = function() {
+                        can.onmousemove = null;
+                        can.onmouseup = null;
+                    };
+                    return false;
+                }
+            }
+        }
+
+        class A{
+            constructor(msg){
+                this.msg=msg;
+            }
+            static getTotal(num1,num2){
+                return num1+num2;
+            }
+        }
+        class B extends A{
+            constructor(msg){
+                super(msg);
+            }
+            static getTotalSquare(num1,num2){
+                return super.getTotal(num1,num2)*super.getTotal(num1,num2);
+            }
+        }
+    </script>
+</head>
+<body>
+<canvas id="box"></canvas>
+</body>
+</html>

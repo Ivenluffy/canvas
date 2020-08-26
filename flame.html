@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>flame</title>
+    <style type="text/css">
+        body {
+            background: rgb(36, 36, 36);
+            text-align: center;
+        }
+        #fire {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var space = document.getElementById("fire");
+            var ctx = space.getContext("2d");
+            var particles = [];
+            var particle_count = 150;
+            for (var i = 0; i < particle_count; i++) {
+                particles.push(new particle());
+            }
+            var time = 0;
+            var canvasWidth = 320;
+            var canvasHeight = 480;
+            $(".wrapper").css({
+                width: canvasWidth,
+                height: canvasHeight
+            });
+            $("#fire").css({
+                width: canvasWidth,
+                height: canvasHeight
+            });
+            window.requestAnimFrame = (function() {
+                return window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    function(callback) {
+                        window.setTimeout(callback, 6000 / 60);
+                    };
+            })();
+
+            function particle() {
+                this.speed = {
+                    x: -1 + Math.random() * 2,
+                    y: -5 + Math.random() * 5
+                };
+                canvasWidth = (document.getElementById("fire").width);
+                canvasHeight = (document.getElementById("fire").height);
+                this.location = {
+                    x: canvasWidth / 2,
+                    y: (canvasHeight / 2) + 35
+                };
+                this.radius = 0.5 + Math.random() * 1;
+                this.life = 10 + Math.random() * 10;
+                this.death = this.life;
+                this.r = 255;
+                this.b = 0;
+                this.g = Math.round(Math.random() * 52);
+            }
+
+            function ParticleAnimation() {
+                ctx.globalCompositeOperation = "source-over";
+                ctx.fillStyle = "rgb(36,36,36)";
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                ctx.globalCompositeOperation = "lighter";
+                for (var i = 0; i < particles.length; i++) {
+                    var p = particles[i];
+                    ctx.beginPath();
+                    p.opacity = Math.round(p.death / p.life * 100) / 100
+                    var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
+                    gradient.addColorStop(0, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
+                    gradient.addColorStop(0.5, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
+                    gradient.addColorStop(1, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", 0)");
+                    ctx.fillStyle = gradient;
+                    ctx.arc(p.location.x, p.location.y, p.radius, Math.PI * 2, false);
+                    ctx.fill();
+                    p.death--;
+                    p.radius++;
+                    p.location.x += (p.speed.x);
+                    p.location.y += (p.speed.y);
+                    if (p.death < 0 || p.radius < 0) {
+                        particles[i] = new particle();
+                    }
+                }
+                requestAnimFrame(ParticleAnimation);
+            }
+            ParticleAnimation();
+        });
+    </script>
+</head>
+<body>
+<canvas id="fire"></canvas>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        canvas{
+            display:block;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas">Your browser does not support canvas!</canvas>
+<!--
+source-over	默认。在目标图像上显示源图像。
+source-atop	在目标图像顶部显示源图像。源图像位于目标图像之外的部分是不可见的。
+source-in	在目标图像中显示源图像。只有目标图像内的源图像部分会显示，目标图像是透明的。
+source-out	在目标图像之外显示源图像。只会显示目标图像之外源图像部分，目标图像是透明的。
+destination-over	在源图像上方显示目标图像。
+destination-atop	在源图像顶部显示目标图像。源图像之外的目标图像部分不会被显示。
+destination-in	在源图像中显示目标图像。只有源图像内的目标图像部分会被显示，源图像是透明的。
+destination-out	在源图像外显示目标图像。只有源图像外的目标图像部分会被显示，源图像是透明的。
+lighter	显示源图像 + 目标图像。
+copy	显示源图像。忽略目标图像。
+xor	使用异或操作对源图像与目标图像进行组合。
+-->
+</body>
+</html>
+<script>
+    var can=document.getElementById("canvas");
+    var ctx=can.getContext("2d");
+    can.width=window.innerWidth;
+    can.height=window.innerHeight;
+    can.style.backgroundColor="#000";
+    ctx.save();
+    //ctx.translate(can.width/2,can.height/2);
+    ctx.beginPath();
+    ctx.fillStyle="yellow";
+    ctx.arc(200,200,100,0,2*Math.PI,false);
+    ctx.fill();
+    ctx.globalCompositeOperation="destination-out";
+    ctx.beginPath();
+    ctx.fillStyle="green";
+    ctx.arc(300,200,120,0,2*Math.PI,false);
+    ctx.fill();
+</script>

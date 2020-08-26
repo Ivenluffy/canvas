@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>typing</title>
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+        }
+        body {
+            background-color: #333;
+        }
+        div {
+            color: white;
+        }
+        #content {
+            position: absolute;
+            width: 500px;
+        }
+        .game {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #start {
+            background-color: white;
+            border: 0;
+            font-size: 25px;
+            width: 80px;
+            height: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <div class="game">
+        <input type="button" name="start" id="start" value="开始" />
+        <span>分数:</span><span id="score"></span>
+        <span>倒计时:</span><span id="times">30</span>
+    </div>
+</div>
+<canvas id="myCanvas"></canvas>
+<script type="text/javascript">
+    var start = document.getElementById("start");
+    var times = document.getElementById("times");
+    var score = document.getElementById("score");
+    var canvas = document.getElementById("myCanvas");
+    var cxt = canvas.getContext("2d");
+    canvas.width = document.documentElement.clientWidth;
+    canvas.height = document.documentElement.clientHeight;
+    var letStr = "abcdefghijklmnopqrstuvwsyz";
+    //随机数
+    function rand(min, max) {
+        return parseInt(Math.random() * (max - min + 1) + min);
+    }
+    //创建字母对象
+
+    function Letter() {
+        this.x = rand(0, canvas.width - 25);
+        this.y = 0;
+        this.speedY = rand(1, 6);
+        this.val = letStr[rand(0, 25)];
+        this.color = ["magenta", "golden", "yellow"]
+    }
+    //画的方法
+    Letter.prototype.draw = function() {
+        cxt.font = "Bold 25px verdana";
+        cxt.fillStyle = this.color[rand(0, 2)];
+        cxt.shadowColor = "darkblue";
+        cxt.shadowBlur = 15;
+        cxt.fillText(this.val, this.x, this.y);
+    }
+    //移动的方法
+    Letter.prototype.move = function() {
+        this.y += this.speedY;
+    }
+    //删除超除屏幕的对象
+    Letter.prototype.clear = function() {
+        if (this.y >= canvas.height) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //盛放对象的数组
+    var letterArr = [];
+    //控制对象产生速度的数字
+    var index = 0;
+    var timer = null;
+    var game = null;
+    start.onclick = function() {
+        clearInterval(timer);
+        clearInterval(game);
+        game = setInterval(function() {
+            cxt.clearRect(0, 0, canvas.width, canvas.height);
+            //先创建对象
+            if (index % 20 == 0) {
+                index++;
+                var letter = new Letter();
+                letterArr.push(letter);
+            }
+            for (var i = 0; i < letterArr.length; i++) {
+                letterArr[i].move();
+                if (letterArr[i].clear()) {
+                    letterArr.splice(i, 1);
+                    i--;
+                } else {
+                    letterArr[i].draw();
+                }
+            }
+            index++;
+        }, 30);
+        //倒计时
+
+        timer = setInterval(function() {
+            times.innerHTML = times.innerHTML - 0 - 1;
+            if (times.innerHTML == 0) {
+                clearInterval(1);
+                clearInterval(2);
+                alert("分数是:" + score.innerHTML);
+                location.reload();
+            }
+        }, 1000);
+        document.onkeypress = function(ev) {
+            var evObj = ev || window.event;
+            //将对应的ASC转成字符
+            var str = String.fromCharCode(evObj.keyCode);
+            for (var i = 0; i < letterArr.length; i++) {
+                if (letterArr[i].val == str) {
+                    letterArr.splice(i, 1);
+                    i--;
+                    score.innerHTML = score.innerHTML - 0 + 1;
+                    break;
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

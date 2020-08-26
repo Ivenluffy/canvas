@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>drawegg</title>
+    <style>
+        #canvas {
+            width: 400px;
+            height: 180px;
+            background: white;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+    var a = 0,
+        point;
+    var intervals = .001;
+    var timmerId = setInterval(function() {
+            if (a < 1) {
+                for (var b = 0; b < 1; b += intervals) {
+                    if (point = surface(a, b)) {
+                        context.fillStyle = "rgb(" + point.r + "," + point.g + ", " + point.b + ")";
+                        context.fillRect(point.x, point.y, 1, 1);
+                    }
+                }
+            } else {
+                clearInterval(timmerId);
+            }
+            a += intervals;
+        },
+        0);
+
+    function square(v) {
+        return v * v;
+    }
+
+    function surface(a, b) {
+        var x = a * 100 + 50,
+            y = b * 100,
+            radius = 50,
+            x0 = 100,
+            y0 = 50;
+        if (square(x - x0) + square(y - y0) < square(radius)) {
+            var cx = 1 - square(a - 0.7) * 2 - square(b - 0.4) * 2;
+            return {
+                x: x,
+                y: y * (b + 2) / 2,
+                r: 130 + Math.floor(cx * 120),
+                g: 77 + Math.floor(cx * 160),
+                b: 43 + +Math.floor(cx * 140)
+            }
+        }
+        return null;
+    }
+</script>
+</body>
+</html>

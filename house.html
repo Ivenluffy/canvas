@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>蚂蚁部落</title>
+    <script>
+        window.onload = function() {
+            canvas = document.getElementById('canvas');
+            canvas.width = 1000;
+            canvas.height = 560;
+            context = canvas.getContext('2d');
+
+            drawing(context);
+            drawing_start_1(context);
+            drawing2(context);
+
+
+            go();
+            draw_moon(context);
+            draw_ease(context);
+            draw_ease_1(context);
+            draw_sleep(context);
+
+        };
+
+        function go() {
+
+            for (var i = 0; i < 20; i++) {
+                var r = Math.random() * 10 + 3;
+                var x = Math.random() * 1000;
+                var y = Math.random() * 300;
+                var a = Math.random() * 360;
+                drawing_start_2(context, x, y, r, r / 2.0, a);
+
+            }
+
+        }
+
+
+        function draw(cxt) {
+            cxt.beginPath();
+            for (i = 0; i < 20; i++) {
+                cxt.moveTo(0, i * 20);
+                cxt.lineTo(1000, i * 20);
+                cxt.stroke();
+            }
+        }
+
+        function draw2(cxt) {
+            cxt.beginPath();
+            for (i = 0; i < 20; i++) {
+                cxt.moveTo(i * 20, 0);
+                cxt.lineTo(i * 20, 100);
+                cxt.stroke();
+            }
+        }
+
+        function drawing(cxt) { //画整体背景颜色渐变
+            var linearGrad = cxt.createLinearGradient(500, 0, 500, 540);
+            linearGrad.addColorStop(0.0, 'black');
+            linearGrad.addColorStop(1.0, 'blue');
+            cxt.fillStyle = linearGrad;
+            cxt.fillRect(0, 0, 1000, 540);
+            cxt.fill();
+        }
+        //画的房子
+        function drawing2(cxt) { //画的草坪
+            cxt.beginPath();
+            cxt.moveTo(0, 540);
+            cxt.lineTo(1000, 540);
+            cxt.lineTo(1000, 560);
+            cxt.lineTo(0, 560);
+            cxt.closePath();
+            cxt.fillStyle = "rgba(34,177,76,1)";
+            cxt.fill();
+            cxt.stroke();
+
+            cxt.beginPath(); //正方形，放在主体
+            cxt.moveTo(200, 540);
+            cxt.lineTo(360, 540);
+            cxt.lineTo(360, 480);
+            cxt.lineTo(200, 480);
+            cxt.closePath();
+            cxt.fillStyle = "purple";
+            cxt.fill();
+            cxt.stroke();
+
+
+            cxt.beginPath(); //三角形
+            cxt.moveTo(120, 480);
+            cxt.lineTo(280, 420);
+            cxt.lineTo(440, 480);
+            cxt.closePath();
+            cxt.fillStyle = "purple";
+            cxt.fill();
+            cxt.stroke();
+
+            cxt.beginPath(); //画的烟囱
+            cxt.moveTo(320, 435);
+            cxt.lineTo(320, 420);
+            cxt.lineTo(340, 420);
+            cxt.lineTo(340, 442);
+            cxt.closePath();
+            cxt.fillStyle = "#fff";
+            cxt.fill();
+            cxt.stroke();
+
+            cxt.beginPath(); //画窗户
+            cxt.moveTo(240, 520);
+            cxt.lineTo(260, 520);
+            cxt.lineTo(260, 500);
+            cxt.lineTo(240, 500);
+            cxt.closePath();
+            cxt.fillStyle = "pink";
+            cxt.fill();
+            cxt.stroke();
+
+            cxt.beginPath(); //画窗户上的线条，形成一个字
+            cxt.moveTo(240, 510);
+            cxt.lineTo(260, 510);
+            cxt.lineTo(250, 500);
+            cxt.lineTo(250, 520);
+            cxt.closePath();
+            cxt.stroke();
+
+
+        }
+
+        function drawing_start_1(cxt) { //星星背景
+            cxt.beginPath();
+            cxt.rect(0, 0, 1000, 550);
+            cxt.closePath();
+            cxt.stroke();
+        }
+
+        function drawing_start_2(cxt, x, y, outerR, innerR, rot) { //画星星
+
+            cxt.beginPath();
+            for (var i = 0; i < 5; i++) {
+                cxt.lineTo((Math.cos(18 + i * 72 - rot) / 180 * Math.PI) * outerR + x, -Math.sin((18 + i * 72 - rot) / 180 * Math * outerR + y));
+
+                cxt.lineTo(Math.cos((54 + i * 72 - rot) / 180 * Math.PI) * innerR + x, -Math.sin((54 + i * 72 - rot) / 180 * Math.PI) * innerR + y);
+            }
+            cxt.fillStyle = "#cf3";
+            cxt.fill();
+            cxt.closePath();
+            cxt.stroke();
+        }
+
+        function draw_moon(cxt) { //画月亮
+            cxt.beginPath();
+            cxt.arc(200, 200, 100, 0.6 * Math.PI, 1.3 * Math.PI);
+            cxt.bezierCurveTo(140, 119, 93, 224, 169, 295);
+            cxt.fillStyle = "yellow";
+            cxt.fill();
+            cxt.stroke();
+        }
+
+        function draw_ease(cxt) { //月亮的眼睛。。。
+            cxt.beginPath();
+            cxt.arc(115, 180, 4, 130, 180);
+            cxt.fillStyle = "#000";
+            cxt.fill();
+            cxt.stroke();
+        }
+
+        function draw_ease_1(cxt) { //月亮的眼睛。。。
+            cxt.beginPath();
+
+            cxt.arc(115, 180, 1.8, 130, 180);
+            cxt.fillStyle = "#fff";
+            cxt.fill();
+            cxt.stroke();
+        }
+
+        function draw_sleep(cxt) { //zzz...
+            cxt.beginPath();
+            cxt.moveTo(40, 80);
+            cxt.lineTo(60, 80);
+            cxt.lineTo(40, 100);
+            cxt.lineTo(60, 100);
+            cxt.strokeStyle = "yellow";
+            cxt.stroke();
+
+            cxt.beginPath();
+            cxt.moveTo(63, 108);
+            cxt.lineTo(80, 108);
+            cxt.lineTo(63, 123);
+            cxt.lineTo(80, 123);
+            cxt.strokeStyle = "yellow";
+            cxt.stroke();
+
+            cxt.beginPath();
+            cxt.moveTo(86, 130);
+            cxt.lineTo(100, 130);
+            cxt.lineTo(86, 142);
+            cxt.lineTo(100, 142);
+            cxt.strokeStyle = "yellow";
+            cxt.stroke();
+        }
+    </script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+</body>
+</html>

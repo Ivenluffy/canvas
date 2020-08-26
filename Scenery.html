@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/gif.js"></script>
+    <script src="js/gif.worker.js"></script>
+    <style>
+        *{margin:0;padding:0;}
+        html,body{width:100%;height:100%;}
+    </style>
+</head>
+<body>
+    <canvas id="cvs">Your browser does not support canvas!</canvas>
+</body>
+</html>
+<script>
+    var can=document.getElementById("cvs");
+    var ctx=can.getContext("2d");
+    can.width=window.innerWidth;
+    can.height=window.innerHeight;
+    ctx.save();
+    //var lg=ctx.createLinearGradient(can.width/2,0,can.width/2,can.height-40);
+    var lg=ctx.createLinearGradient(0,can.height-40,can.width,0);
+    lg.addColorStop(0,"#abd4f5");
+    lg.addColorStop(1,"#e5f1fb");
+    ctx.fillStyle=lg;
+    ctx.fillRect(0,0,can.width,can.height-40);
+    ctx.fill();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.strokeStyle="#999";
+    ctx.fillStyle="#aaa";
+    ctx.beginPath();
+    ctx.moveTo(340,can.height);
+    ctx.quadraticCurveTo(380,can.height-200,420,can.height);
+    ctx.moveTo(370,can.height);
+    ctx.quadraticCurveTo(420,can.height-270,500,can.height);
+    ctx.stroke();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(can.width,can.height);
+    ctx.quadraticCurveTo(can.width-90,can.height-300,can.width-130,can.height);
+    ctx.moveTo(can.width-80,can.height);
+    ctx.quadraticCurveTo(can.width-200,can.height-500,can.width-300,can.height);
+    ctx.moveTo(can.width-240,can.height);
+    ctx.quadraticCurveTo(can.width-260,can.height-400,can.width-380,can.height);
+    ctx.stroke();
+    ctx.fill();
+
+    ctx.restore();
+
+
+    ctx.beginPath();
+    ctx.fillStyle="#fff";
+    ctx.arc(can.width-150,100,50,0,2*Math.PI,false);
+    ctx.shadowColor="#fff";
+    ctx.shadowBlur=50;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.fillStyle="#b9988c";
+    ctx.fillRect(0,can.height-40,can.width,can.height);
+    ctx.fill();
+    ctx.restore();
+    ctx.beginPath();
+    for(let i=0;i<can.width;i+=2){
+        for(let j=can.height-40;j<can.height;j+=2){
+            let length=10+Math.random()*10;
+            let angle=-Math.PI*3/4+Math.PI/2*Math.random();
+            drawBranch(ctx,i,j,length,angle,1,0.5);
+        }
+    }
+
+    function drawBranch(ctx,startX,startY,length,angle,branchCount,branchWidth){
+        let endX,endY,newLength,newAngle,maxBranchCount=3,maxAngle=Math.PI/4,subBranchCount;
+        endX=startX+Math.cos(angle)*length;
+        endY=startY+Math.sin(angle)*length;
+        ctx.beginPath();
+        ctx.lineWidth=branchWidth;
+        ctx.lineCap="round";
+        ctx.moveTo(startX,startY);
+        ctx.lineTo(endX,endY);
+        if(branchCount<=2){
+            ctx.strokeStyle = 'rgb(0,' + parseInt(((Math.random() * 64) + 128)) + ',0)';
+        }else{
+            ctx.strokeStyle="rgb(121,85,72)";
+        }
+        ctx.stroke();
+        branchCount-=1;
+        if(branchCount==0)return;
+        branchWidth*=0.7;
+        subBranchCount=Math.random()*(maxBranchCount-1)+1;
+        setTimeout(()=>{
+            for(let i=0;i<subBranchCount;i++){
+                newAngle=angle+2*Math.random()*maxAngle-maxAngle;
+                newLength=(0.7+0.3*Math.random())*length;
+                drawBranch(ctx,endX,endY,newLength,newAngle,branchCount,branchWidth);
+            }
+        },100)
+    }
+
+    drawBranch(ctx, can.width / 7, can.height - 20, 60, -Math.PI / 2, 8, 6);
+    drawBranch(ctx, can.width / 2, can.height - 20, 85, -Math.PI / 2, 11, 20);
+    drawBranch(ctx, can.width *4/ 5, can.height - 20, 65, -Math.PI / 2, 10, 10);
+
+
+    var gif = new GIF({
+        workers: 2,
+        quality: 10
+    });
+    // 添加一个图片标签对象像素到当前帧
+    //gif.addFrame(imageElement);
+    //或添加一个canvas对象的像素到当前帧
+    gif.addFrame(can, {
+        delay: 0
+    });
+    // 添加一个图片标签对象像素到当前帧
+    //gif.addFrame(imageElement);
+    //或添加一个canvas对象的像素到当前帧
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    gif.addFrame(can, {
+        delay: 100
+    });
+    //从canvas context复制像素到当前帧
+    gif.addFrame(ctx, {
+        copy: true
+    });
+    //合成图片成功后
+    gif.on('finished', function(blob) {
+        window.open(URL.createObjectURL(blob));
+    });
+    //渲染图片
+    gif.render();
+</script>

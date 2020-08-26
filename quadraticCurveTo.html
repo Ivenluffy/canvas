@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas">Browser does not support canvas!</canvas>
+</body>
+</html>
+<script>
+    function getRandomNum(min,max){
+        return parseInt(min+Math.round(Math.random()*(max-min)));
+    }
+    var can = document.getElementById("canvas");
+    var ctx = can.getContext("2d");
+    can.width = window.innerWidth;
+    can.height = window.innerHeight;
+    can.style.backgroundColor = "#000";
+    var starArr=[];
+    for(let i=0;i<100;i++){
+        let obj={
+            x:getRandomNum(can.width/50,can.width/20),
+            y:getRandomNum(0,can.height/30),
+            size:getRandomNum(1,10),
+            opacity:Math.random().toFixed(1),
+            rotate:getRandomNum(0,Math.PI*2)
+        };
+        starArr.push(obj);
+    }
+
+
+    ctx.save();
+    ctx.translate(can.width *2/3, can.height/6);
+    ctx.rotate(15 * Math.PI / 180);
+    ctx.beginPath();
+    ctx.fillStyle = "yellow";
+    ctx.shadowColor = "rgb(255, 255, 0,1)";
+    ctx.shadowBlur = 100;
+    ctx.moveTo(100 * Math.cos(2 / 5 * Math.PI), 100 * Math.sin(2 / 5 * Math.PI));
+    ctx.quadraticCurveTo(300 * Math.cos(2 / 5 * Math.PI), 0, 100 * Math.cos(-2 / 5 * Math.PI), 100 * Math.sin(-2 / 5 * Math.PI));
+    ctx.quadraticCurveTo(300 * Math.cos(2 / 5 * Math.PI) + 80, 0, 100 * Math.cos(2 / 5 * Math.PI), 100 * Math.sin(2 / 5 * Math.PI));
+    ctx.fill();
+    ctx.translate(-can.width *2/3, -can.height/6);
+    ctx.rotate(-15 * Math.PI / 180);
+    ctx.restore();
+
+    ctx.save();
+    for(var k=0;k<starArr.length;k++){
+        ctx.translate(starArr[k].x, starArr[k].y);
+        ctx.rotate(starArr[k].rotate);
+        ctx.beginPath();
+        ctx.fillStyle="rgb(255, 255, 255,"+starArr[k].opacity+")";
+        ctx.shadowColor = "rgb(255, 255, 255,"+starArr[k].opacity+")";
+        ctx.shadowBlur = 30;
+        for (var i = 0; i < 5; i++) {
+            ctx.lineTo(Math.cos((18+i*72)/180*Math.PI)*(3*starArr[k].size),-Math.sin((18+i*72)/180*Math.PI)*(3*starArr[k].size));
+            ctx.stroke();
+            ctx.lineTo(Math.cos((54+i*72)/180*Math.PI)*starArr[k].size,-Math.sin((54+i*72)/180*Math.PI)*starArr[k].size);
+            ctx.stroke();
+        }
+        ctx.translate(-starArr[k].x, -starArr[k].y);
+        ctx.rotate(-starArr[k].rotate);
+        ctx.fill();
+        ctx.closePath();
+    }
+    ctx.restore();
+
+</script>

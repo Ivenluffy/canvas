@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tree</title>
+    <style>
+        *{margin:0;padding:0;}
+        html,body{width:100%;height:100%;}
+        #cvs{
+            background: #eeffee;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs">Your browser does not support canvas!</canvas>
+</body>
+</html>
+<script>
+    var can=document.getElementById("cvs");
+    var ctx=can.getContext("2d");
+    can.width=window.innerWidth;
+    can.height=window.innerHeight;
+    can.style.backgroundColor="rgba(0,0,0,0.2)";
+    for(let i=0;i<can.width;i+=3){
+        for(let j=can.height-40;j<can.height;j+=3){
+            let angle=-3*Math.PI/4+Math.PI/2*Math.random();
+            let length=10+Math.random()*10;
+            drawTree(ctx,i,j,length,angle,1,1);
+        }
+    }
+    ctx.save();
+    ctx.beginPath();
+    ctx.fillStyle="yellow";
+    ctx.shadowColor="yellow";
+    ctx.shadowBlur=200;
+    ctx.arc(can.width-200,100,60,0,2*Math.PI,false);
+    ctx.fill();
+    // ctx.globalCompositeOperation="destination-out";
+    // ctx.beginPath();
+    // ctx.fillStyle="green";
+    // ctx.arc(can.width-150,100,60,0,2*Math.PI,false);
+    // ctx.fill();
+    ctx.closePath();
+    ctx.restore();
+    function drawTree(ctx,startX,startY,length,angle,branchCount,branchWidth){
+        let endX,endY,maxBranchCount=3,subBranchCount,newLength,newAngle,maxAngle=Math.PI/4;
+        ctx.beginPath();
+        ctx.lineWidth=branchWidth;
+        ctx.lineCap="round";
+        endX=startX+length*Math.cos(angle);
+        endY=startY+length*Math.sin(angle);
+        ctx.moveTo(startX,startY);
+        ctx.lineTo(endX,endY);
+
+
+        if(branchCount<=2){
+            ctx.strokeStyle = 'rgb(0,' + parseInt(((Math.random() * 64) + 128)) + ',0)';
+        }
+        else{
+            ctx.strokeStyle="rgb(64,50,25)";
+            // ctx.strokeStyle = 'rgb(' + parseInt(((Math.random() * 64) + 64)) + ',50,25)';
+        }
+        ctx.stroke();
+        branchCount-=1;
+        if(branchCount==0)return;
+        branchWidth*=0.7;
+        subBranchCount=Math.random()*(maxBranchCount-1)+1;
+        setTimeout(()=>{
+            for(let i=0;i<subBranchCount;i++){
+                newLength=length*(0.7+Math.random()*0.3);
+                newAngle=angle+2*Math.random()*maxAngle-maxAngle;
+                drawTree(ctx,endX,endY,newLength,newAngle,branchCount,branchWidth);
+            }
+
+        },100)
+    }
+    drawTree(ctx, can.width / 7, can.height - 20, 60, -Math.PI / 2, 8, 6);
+    drawTree(ctx, can.width / 2, can.height - 20, 80, -Math.PI / 2, 11, 20);
+    drawTree(ctx, can.width *4/ 5, can.height - 20, 65, -Math.PI / 2, 10, 10);
+
+</script>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>magnifier</title>
+    <style>
+        #canvas {
+            display:block;
+            margin:0 auto;
+            border:1px solid #aaa;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+<canvas id="offCanvas" style="display:none;"></canvas>
+<script>
+    var canvas = document.getElementById("canvas")
+    var context = canvas.getContext("2d")
+    var offCanvas = document.getElementById("offCanvas")
+    var offContext = offCanvas.getContext("2d")
+    var down = false
+    var image = new Image()
+    var scale
+    window.onload = function() {
+        canvas.width = 383;
+        canvas.height = 239;
+        image.src = "images/snow.jpg";
+        image.onload = function() {
+            offCanvas.width = image.width;
+            offCanvas.height = image.height;
+            scale = offCanvas.width / canvas.width;
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            offContext.drawImage(image, 0, 0)
+        }
+    }
+
+    function weizhi(x, y) {
+        var bbox = canvas.getBoundingClientRect()
+        return {
+            x: x - bbox.left,
+            y: y - bbox.top
+        };
+    }
+    canvas.onmousedown = function(e) {
+        e.preventDefault();
+        var point = weizhi(e.clientX, e.clientY);
+        down = true;
+        drawcanvasfaj(true, point);
+    }
+    canvas.onmousemove = function(e) {
+        e.preventDefault();
+        if (down) {
+            var point = weizhi(e.clientX, e.clientY)
+            drawcanvasfaj(true, point);
+        }
+    }
+    canvas.onmouseup = function(e) {
+        e.preventDefault();
+        down = false;
+        drawcanvasfaj(false);
+    }
+    canvas.onmouseout = function(e) {
+        e.preventDefault();
+        down = false;
+        drawcanvasfaj(false);
+    }
+
+    function drawcanvasfaj(boolean, point) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        if (boolean == true) {
+            drawfaj(point)
+        }
+    }
+
+    function drawfaj(point) {
+        var imageLG_cx = point.x * scale
+        var imageLG_cy = point.y * scale
+        var mr = 100
+        var sx = imageLG_cx - mr
+        var sy = imageLG_cy - mr
+        var dx = point.x - mr
+        var dy = point.y - mr
+        context.save();
+        context.lineWidth = 2;
+        context.strokeStyle = "#FFCCCC"
+        context.beginPath();
+        context.arc(point.x, point.y, mr, 0, Math.PI * 2)
+        context.stroke();
+        context.clip();
+        context.drawImage(offCanvas, sx, sy, 2 * mr, 2 * mr, dx, dy, 2 * mr, 2 * mr)
+        context.restore();
+    }
+</body>
+</html>

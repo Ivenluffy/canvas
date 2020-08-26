@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>Solid Ring</title>
+    <style>
+        canvas {
+            border:2px dotted #ccc;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="550" height="450"></canvas>
+<script type="text/javascript">
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    function drawTwoArcs() {
+        context.beginPath();
+        context.arc(300, 190, 150, 0, Math.PI * 2, false);
+        context.arc(300, 190, 100, 0, Math.PI * 2, true);
+        context.fill();
+    }
+    function draw() {
+        context.shadowColor = "rgba(0,0,0,0.8)";
+        context.shadowOffsetX = 12;
+        context.shadowOffsetY = 12;
+        context.shadowBlur = 15;
+        drawTwoArcs();
+    }
+    context.fillStyle = "silver";
+    context.save();
+        //draw();
+
+    function drawRing(){
+        let lg=context.createLinearGradient(0,0,canvas.width,canvas.height);
+        lg.addColorStop(0.2,"red");
+        lg.addColorStop(0.4,"orange");
+        lg.addColorStop(0.5,"yellow");
+        lg.addColorStop(0.6,"green");
+        lg.addColorStop(0.7,"blue");
+        lg.addColorStop(0.8,"pink");
+        lg.addColorStop(1,"purple");
+
+        context.save();
+        context.beginPath();
+        context.shadowColor="rgba(0,0,0,0.8)";
+        context.shadowOffsetX=8;
+        context.shadowOffsetY=8;
+        context.shadowBlur=8;
+
+        context.fillStyle="rgba(100,140,230,0.5)";
+        context.arc(300,190,150,0,2*Math.PI,false);
+        context.arc(300,190,100,0,2*Math.PI,true);
+        context.fill();
+        // context.restore();
+        // context.save();
+        context.beginPath();
+        context.fillStyle=lg;
+        context.font="italic bold 46px Arial";
+        context.textAlign="center";
+        context.textBaseline="middle";
+        context.lineWidth=10;
+        context.fillText("Solid Ring",canvas.width/2,canvas.height/6*5);
+        context.stroke();
+        context.restore();
+    }
+    drawRing();
+</script>
+</body>
+</html>

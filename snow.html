@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;padding:0}
+        html,body{width:100%;height:100%;}
+    </style>
+</head>
+<body>
+    <canvas id="cvs">Your browser does not support canvas!</canvas>
+    <img hidden id="img" src="images/snow.jpg" alt="">
+</body>
+</html>
+<script>
+    function getRndNum(min,max){
+        return parseInt(min+Math.round(Math.random()*(max-min)));
+    }
+    var can=document.getElementById("cvs");
+    var ctx=can.getContext("2d");
+    var img=document.getElementById("img");
+    can.width=window.innerWidth;
+    can.height=window.innerHeight;
+    var snowArr=[];
+    for(var i=0;i<500;i++){
+        var obj={
+            x:getRndNum(0,can.width),
+            y:getRndNum(0,can.height),
+            r:getRndNum(1,3),
+            dx:getRndNum(-1,1),
+            dy:getRndNum(1,2),
+        };
+        snowArr.push(obj);
+    }
+    function drawSnow(){
+        ctx.clearRect(0,0,can.width,can.height);
+        ctx.drawImage(img,0,0,can.width,can.height);
+        ctx.save();
+        for(let i=0;i<snowArr.length;i++){
+            let snow=snowArr[i];
+            snow.x+=snow.dx;
+            snow.y+=snow.dy;
+            if(snow.x<0||snow.x>can.width||snow.y>can.height){
+                snow.x=getRndNum(0,can.width);
+                snow.y=0;
+            }
+            ctx.beginPath();
+            ctx.arc(snow.x,snow.y,snow.r,0,2*Math.PI,false);
+            ctx.closePath();
+            ctx.fillStyle="#fff";
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+    setInterval(drawSnow,30);
+</script>

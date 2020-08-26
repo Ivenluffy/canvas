@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>meteor</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        #cvs {
+            position: fixed;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+<canvas id="cvs"></canvas>
+<script type="text/javascript">
+    var cvs = document.getElementById('cvs');
+    cvs.width = window.innerWidth;
+    cvs.height = window.innerHeight;
+    cvs.style.backgroundColor="rgb(20,20,20)";
+    var ctx = cvs.getContext('2d');
+    var starArr = [],
+        meteorArr = [];
+    for (var i = 0; i < 50; i++) {
+        starArr.push({
+            x: parseInt(Math.random() * cvs.width),
+            y: parseInt(Math.random() * cvs.height),
+            r: parseInt(Math.random() * 7) + 3,
+            opacity: 1,
+            opacitySpeed: 0.02 //i % 3 == 0 ? 0.01 : 0
+        });
+    }
+    for (var i = 0; i < 50; i++) {
+        meteorArr.push({
+            x: Math.random() * cvs.width * 20,
+            y: -Math.random() * cvs.height,
+            r: 0.1,
+            opacity: 1
+        });
+    }
+    setInterval(function() {
+        // ctx.fillStyle = 'rgb(20,20,20)';
+        // ctx.fillRect(0, 0, cvs.width, cvs.height);
+        ctx.clearRect(0, 0, cvs.width, cvs.height);
+        ctx.save();
+        ctx.arc(cvs.width/5*4-30,cvs.height/5,50,0,2*Math.PI,false);
+        ctx.fill();
+
+        ctx.globalCompositeOperation="source-out";
+        ctx.fillStyle="yellow";
+        // ctx.shadowColor="rgb(255, 255, 0,.8)";
+        // ctx.shadowBlur=50;
+        //
+        ctx.beginPath();
+        ctx.arc(cvs.width/5*4,cvs.height/5,50,0,2*Math.PI,false);
+        ctx.fill();
+        ctx.beginPath();
+
+
+        ctx.restore();
+
+        ctx.lineCap = 'round';
+
+
+
+
+        for (var i = 0; i < starArr.length; i++) {
+            var x = starArr[i].x,
+                y = starArr[i].y,
+                r = starArr[i].r,
+                opacity = starArr[i].opacity;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + r / 6, y + r / 3);
+            ctx.stroke();
+            ctx.lineTo(x + r / 2, y + r / 2);
+            ctx.stroke();
+            ctx.lineTo(x + r / 6, y + r / 3 * 2);
+            ctx.lineTo(x, y + r);
+            ctx.lineTo(x - r / 6, y + r / 3 * 2);
+            ctx.lineTo(x - r / 2, y + r / 2);
+            ctx.lineTo(x - r / 6, y + r / 3);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = 'rgba(255,255,255,' + opacity + ')';
+            ctx.fillStyle = 'rgba(255,255,255,' + opacity + ')';
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+            starArr[i].opacity -= starArr[i].opacitySpeed;
+            if (starArr[i].opacity <= 0.2 || starArr[i].opacity >= 1) {
+                starArr[i].opacitySpeed = -starArr[i].opacitySpeed;
+            }
+        }
+        for (var i = 0; i < meteorArr.length; i++) {
+            var x = meteorArr[i].x,
+                y = meteorArr[i].y,
+                r = meteorArr[i].r;
+            for (var j = r; j < 70; j++) {
+                ctx.beginPath();
+                ctx.fillStyle = 'rgb(255,255,255)';
+                ctx.arc(x, y, r, 0, 360 * Math.PI / 180, true);
+                r += 0.02;
+                x -= 2;
+                y += 1;
+                ctx.fill();
+                ctx.closePath();
+            }
+            meteorArr[i].x -= 16;
+            meteorArr[i].y += 8;
+            if (meteorArr[i].y >= cvs.height + 50) {
+                meteorArr[i].x = Math.random() * cvs.width * 20;
+                meteorArr[i].y = -Math.random() * cvs.height;
+            }
+        }
+
+
+
+    }, 20);
+</script>
+</body>
+</html>

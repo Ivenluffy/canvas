@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>rate of progress</title>
+    <style>
+        .progress {
+            width: 200px;
+            height: 200px;
+            border: solid 1px #ccc;
+            position: absolute;
+            transform: rotate(-90deg);
+        }
+        #canvas1, #canvas2 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+        }
+        #canvas2 {
+            transform: rotate(90deg);
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            function $id(id) {
+                return typeof id === "string" ? document.getElementById(id) : id;
+            }
+
+            function progress(maxAngle) {
+                var canvas1 = $id("canvas1");
+                var conText1 = canvas1.getContext("2d"); //2d对象
+                conText1.lineWidth = 10; //线条宽度
+                conText1.beginPath();
+                conText1.strokeStyle = "#ccc"; //笔触颜色
+                conText1.arc(100, 100, 95, 0, 2 * Math.PI, false); //绘制圆形
+                conText1.stroke(); //链接起两点
+                conText1.closePath(); //链接起始点和终结点
+
+                //转动的圆环
+                //转动的最大度数maxAngle
+                var canvas2 = $id("canvas2");
+                var conText2 = canvas1.getContext("2d"); //2d对象
+                conText2.lineWidth = 10;
+                var grd = conText2.createLinearGradient(100, 10, 0, 100); //创建一个线性渐变
+                grd.addColorStop(1, "#8CE050");
+                grd.addColorStop(0, "#f00");
+                //设置fillStyle为当前的渐变对象
+                conText2.strokeStyle = grd;
+                var angle = 0; //角度
+                var timer = null; //定时器
+                timer = setInterval(function() {
+                    if (angle < maxAngle / 100 * 360) {
+                        angle++;
+                    } else {
+                        clearInterval(timer);
+                    }
+                    var progress = parseInt((angle / 360) * 100); //%显示
+                    conText2.beginPath();
+                    conText2.arc(100, 100, 95, 0, angle * Math.PI / 180, false);
+                    conText2.clearRect(0, 0, 200, 200); //走完一次清空一次
+                    conText2.stroke();
+                    conText2.closePath();
+                    conText2.rotate(90 * Math.PI / 180) //旋转的弧度
+                    conText2.font = "30px Arial"; //字体属性
+                    conText2.fillStyle = "#000000"
+                    var text = progress + "%";
+                    conText2.fillText(text, 80, -90);
+                    conText2.closePath();
+                    conText2.restore(); //返回之前保存过的路径状态和属性
+                }, 10)
+            }
+            progress(50);
+        }
+    </script>
+</head>
+<body>
+<div class="progress">
+    <canvas id="canvas1" height="200" width="200"></canvas>
+    <canvas id="canvas2" height="200" width="200"></canvas>
+</div>
+</body>
+</html>

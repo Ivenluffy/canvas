@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>tree</title>
+    <style>
+        *{margin:0;padding:0;}
+        html,body{width:100%;height:100%;}
+        #tree {
+            background: #eeffee;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var tree = document.getElementById('tree');
+            var ctx = tree.getContext('2d');
+            tree.width=window.innerWidth;
+            tree.height=window.innerHeight;
+            drawTree(ctx, tree.width / 2, tree.height - 100, 60, -Math.PI / 2, 11, 12);
+            drawTree(ctx, tree.width / 2 - 650, tree.height-400, 20, -Math.PI / 2, 5, 3);
+            drawTree(ctx, tree.width / 2 + 400, tree.height - 70, 20, -Math.PI / 2, 6, 3);
+            drawTree(ctx, 300, 150, 20, -Math.PI / 2, 8, 3);
+        };
+        /**
+         * [drawTree description]
+         * @param  ctx         [画布]
+         * @param  startX      [树的起始 x 坐标]
+         * @param  startY      [树的起始 y 坐标]
+         * @param  length      [树干长度]
+         * @param  angle       [树干方向，以坐标系x轴正方向为0度]
+         * @param  depth       [树干分支数]
+         * @param  branchwidth [树干宽度]
+         */
+        function drawTree(ctx, startX, startY, length, angle, depth, branchwidth) {
+            var rand = Math.random,
+                newLength, newAngle, newDepth, maxBranch = 3,
+                endX, endY, maxAngle = Math.PI / 4,
+                /* 树枝数量 */
+                subBranches;
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            endX = startX + length * Math.cos(angle);
+            endY = startY + length * Math.sin(angle);
+            ctx.lineCap = 'round';
+            ctx.lineWidth = branchwidth;
+            ctx.lineTo(endX, endY);
+            if (depth <= 2) {
+                /*叶子颜色，颜色用了随机数，这样使颜色看起来有深有浅，比较符合实际 */
+                ctx.strokeStyle = 'rgb(0,' + parseInt(((rand() * 64) + 128)) + ',0)';
+                //ctx.strokeStyle='rgb(0,128,0)';
+            } else {
+                /*树干颜色，颜色用了随机数，这样使颜色看起来有深有浅，比较符合实际 */
+                //ctx.strokeStyle = 'rgb(' + parseInt(((rand() * 64) + 64)) + ',50,25)';
+                ctx.strokeStyle='rgb(64,50,25)';
+            }
+            ctx.stroke();
+
+            newDepth = depth - 1;
+            if (!newDepth) {
+                return;
+            }
+            subBranches = rand() * (maxBranch-1) + 1;
+            branchwidth *= 0.7;
+            setTimeout(function() {
+                for (var i = 0; i < subBranches; i++) {
+                    newAngle = angle + rand() * maxAngle * 2 - maxAngle;
+                    newLength = length * (0.7 + rand() * 0.3);
+                    drawTree(ctx, endX, endY, newLength, newAngle, newDepth, branchwidth);
+                }
+            }, 100);
+        }
+    </script>
+</head>
+<body>
+    <canvas id="tree" >您的浏览器不支持canvas标签</canvas>
+</body>
+</html>

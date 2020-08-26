@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>蚂蚁部落</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<canvas id="myCanvas" width="1000" height="700"></canvas>
+</body>
+<script type="text/javascript">
+    var ctx = document.getElementById("myCanvas").getContext("2d");
+    // 头
+    ctx.beginPath();
+    ctx.strokeStyle = "#f61000";
+    ctx.arc(300, 300, 100, 0, 2 * Math.PI, true);
+    ctx.fillStyle = "#f61000";
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = "#dbbfaa";
+    ctx.arc(300, 417, 100, 6 / 5 * Math.PI, 9 / 5 * Math.PI, false);
+    ctx.arc(300, 301, 100, 1 / 5 * Math.PI, 4 / 5 * Math.PI, false);
+    ctx.fillStyle = "#dbbfaa";
+    ctx.fill();
+    ctx.stroke();
+    ctx.save();
+    // 脸上的 黑。
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(127,20,4,0)";
+    ctx.fillStyle = "rgba(0,0,0,0.4)";
+    EllipseTwo(ctx, 245, 300, 16, 8);
+    ctx.fill();
+    ctx.stroke();
+    // 2
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(127,20,4,0)";
+    ctx.fillStyle = "rgba(0,0,0,0.4)";
+    EllipseTwo(ctx, 355, 300, 16, 8);
+    ctx.fill();
+    ctx.stroke();
+    // 眼睛
+    ctx.restore();
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = "#fff";
+    ctx.arc(293, 285, 18, 1 / 3 * Math.PI, 5 / 3 * Math.PI, false);
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = "#fff";
+    ctx.arc(307, 285, 18, 2 / 3 * Math.PI, 4 / 3 * Math.PI, true);
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2
+    ctx.moveTo(300, 270);
+    ctx.lineTo(300, 300);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = "#000";
+    ctx.arc(307, 283, 3, 0, 2 * Math.PI, true);
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = "#000";
+    ctx.arc(289, 284, 3, 0, 2 * Math.PI, true);
+    ctx.fill();
+    ctx.stroke();
+    ctx.save();
+    // 眉毛
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = "#000";
+    ctx.lineWidth = 2
+    ctx.moveTo(268, 258);
+    ctx.lineTo(263, 268);
+    ctx.lineTo(300, 275);
+    ctx.lineTo(330, 270);
+    ctx.lineTo(328, 260);
+    ctx.lineTo(300, 268);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.save();
+    // 嘴
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
+    ctx.moveTo(280, 310)
+    ctx.lineTo(300, 290)
+    ctx.lineTo(330, 314)
+    ctx.closePath();
+    ctx.moveTo(283, 310)
+    ctx.lineTo(300, 328)
+    ctx.lineTo(325, 314)
+    ctx.closePath();
+    ctx.fillStyle = "#f8931d";
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+    //椭圆
+    function EllipseTwo(context, x, y, a, b) {
+        context.save();
+        var r = (a > b) ? a : b;
+        var ratioX = a / r;
+        var ratioY = b / r;
+        context.scale(ratioX, ratioY);
+        context.beginPath();
+        context.arc(x / ratioX, y / ratioY, r, 0, 2 * Math.PI, false);
+        context.closePath();
+        context.restore();
+        context.stroke();
+    }
+</script>
+</html>

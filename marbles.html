@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="http://www.softwhy.com/" />
+    <title>marbles</title>
+</head>
+<body>
+<canvas id="canvas" width="500" height="500"></canvas>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var screenWidth = document.documentElement.offsetWidth;
+    var screenHeight = document.documentElement.offsetHeight;
+
+    canvas.width = screenWidth;
+    canvas.height = screenHeight;
+    //随机函数
+    function rand(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+
+    }
+
+    function Ball() {
+        this.r = rand(5, 30);
+        //圆心
+        this.x = rand(this.r, screenWidth - this.r);
+        this.y = rand(this.r, screenHeight - this.r);
+        //颜色
+        this.color = "rgba(" + rand(0, 256) + "," + rand(0, 256) + "," + rand(0, 256) + "," + Math.random() + ")";
+        //速度
+        this.speedX = rand(1, 10);
+        this.speedY = rand(1, 10);
+    }
+    Ball.prototype.move = function() {
+        this.x += this.speedX * (rand(0, 2) > 1 ? 1 : -1);
+        this.y += this.speedY * (rand(0, 2) > 1 ? 1 : -1);
+        if (this.x >= screenWidth - this.r) {
+            this.speedX *= -1;
+        }
+        if (this.x <= this.r) {
+            this.speedX *= -1;
+        }
+        if (this.y >= screenHeight - this.r) {
+            this.speedY *= -1;
+        }
+        if (this.y <= this.r) {
+            this.speedY *= -1;
+        }
+
+    }
+
+    Ball.prototype.draw = function() {
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    var balls = [];
+    for (var i = 0; i < 100; i++) {
+        var ball = new Ball();
+        balls.push(ball);
+        ball.draw();
+    }
+
+    function move() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < balls.length; i++) {
+            var ball = balls[i];
+            ball.draw();
+            ball.move();
+        }
+        window.requestAnimationFrame(move);
+    }
+    move();
+</script>
+</body>
+</html>

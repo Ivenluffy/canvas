@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;padding:0;}
+        html,body{width:100%;height:100%;}
+        #cvs{
+
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs">Your browser does not support canvas!</canvas>
+</body>
+</html>
+<script>
+    var cans=document.getElementById("cvs");
+    var ctx=cans.getContext("2d");
+    cans.width=window.innerWidth;
+    cans.height=window.innerHeight;
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth=1;
+    ctx.strokeStyle="#999";
+    for(var i=0;i<cans.width;i+=16){
+        ctx.moveTo(i,0);
+        ctx.lineTo(i,cans.height)
+    }
+    for(var i=0;i<cans.height;i+=16){
+        ctx.moveTo(0,i);
+        ctx.lineTo(cans.width,i);
+    }
+    ctx.stroke();
+    ctx.beginPath();
+    var rg=ctx.createRadialGradient(cans.width/2,150,0,cans.width/2,150,250);
+    rg.addColorStop(0,"red");
+    rg.addColorStop(0.3,"blue");
+    rg.addColorStop(0.5,"yellow");
+    rg.addColorStop(0.7,"green");
+    rg.addColorStop(1,"purple");
+    var lg=ctx.createLinearGradient(0,0,cans.width,cans.height);
+    lg.addColorStop(0,"red");
+    lg.addColorStop(0.3,"blue");
+    lg.addColorStop(0.5,"yellow");
+    lg.addColorStop(0.7,"green");
+    lg.addColorStop(1,"purple");
+
+    ctx.strokeStyle="red";
+    ctx.lineWidth=6;
+    ctx.font="64px Arial";
+    ctx.textAlign="center";
+    ctx.textBaseline="top";
+    ctx.fillStyle=lg;
+    ctx.strokeText("Stroke Text",cans.width/2,0);
+    ctx.stroke();
+    ctx.fillText("Stroke Text",cans.width/2,0);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.lineWidth=3;
+    ctx.textBaseline="middle";
+    ctx.strokeStyle=rg;
+    ctx.strokeText("Radial Gradient Text",cans.width/2,150);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.fillStyle=lg;
+    ctx.rotate(6*Math.PI/180);
+    ctx.shadowOffsetX=4;
+    ctx.shadowOffsetY=6;
+    ctx.shadowBlur=4;
+    ctx.shadowColor="rgba(0,0,0,1)";
+    ctx.fillText("Canvas Context Style Linear Gradient Text",cans.width/2,cans.height/2);
+    ctx.fill();
+    ctx.restore();
+
+
+</script>
